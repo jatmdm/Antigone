@@ -8,13 +8,34 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
+using UnityEngine;
+using System.Collections.Generic;
 namespace AssemblyCSharpfirstpass
 {
 	public class AIBase
 	{
-		
+		private int currentBehavior;
+		private List<AIBehavior> behaviors;
 		public AIBase ()
 		{
+			currentBehavior = 0;
+
+		}
+
+		public void AddBehavior(AIBehavior behavior){
+			behaviors.Add (behavior);
+		}
+
+		public void switchBehavior(int index){
+			currentBehavior = index;
+		}
+
+		public virtual void Behave(){
+
+		}
+
+		public void Update(){
+			Behave ();
 		}
 	}
 }

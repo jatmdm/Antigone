@@ -14,7 +14,7 @@ namespace AssemblyCSharpfirstpass
 	public class AIBehavior
 	{
 		private GameObject _gObject;
-
+		public Vector2 _target;
 		public AIBehavior ()
 		{
 			_gObject = null;
@@ -24,7 +24,18 @@ namespace AssemblyCSharpfirstpass
 			_gObject = obj;
 		}
 
+
 		public virtual void Update(){
+
+		}
+
+		public virtual GameObject GObject{
+			get{ return _gObject;}
+		}
+
+		public virtual Vector2 Target{
+			get{ return _target;}
+			set{ _target = value;}
 		}
 	}
 }
