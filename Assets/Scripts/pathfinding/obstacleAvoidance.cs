@@ -53,7 +53,7 @@ public class obstacleAvoidance : MonoBehaviour {
 		
 		if(updateTime < 0)
 		{
-			updateTime = 1f;
+			updateTime = 1.25f;
 			List<NODE> tmp = GetComponent<Grid>().getPathToPos((Vector2)transform.position, (Vector2)GameObject.Find ("poop").transform.position);
 			if(tmp != path)
 			{
@@ -65,7 +65,7 @@ public class obstacleAvoidance : MonoBehaviour {
 			return;
 		}
 		
-		if(Vector2.Distance(path[pathCount].pos, (Vector2)transform.position) < .1f)
+		if(Vector2.Distance(path[pathCount].pos, (Vector2)transform.position) < .5f)
 		{
 			pathCount--;
 			if(pathCount < 0)

@@ -15,12 +15,15 @@ public class Grid : MonoBehaviour {
 
 	void makeGrid()
 	{
-		Vector2 pos = (Vector2)transform.position-new Vector2(8, -8);
+		Vector2 pos = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y))-new Vector2(8, -8);
 		Vector2 start = pos;
 		
-		for (int i=0; i < 200; i++) 
+		for (int i=0; i < (16*16)-1; i++) 
 		{
-			nodes.Add (new NODE (pos, true, (int)i));
+			if(nodes.Find(x => x.pos.Equals(pos)) == null)
+			{
+				nodes.Add (new NODE (pos, true, (int)i));
+			}
 			
 			pos.x += 1f;
 			if (pos.x > start.x+16) 
@@ -46,7 +49,7 @@ public class Grid : MonoBehaviour {
 	{
 		if(!transform.position.Equals(lastPos))
 		{
-			nodes.Clear();
+			//nodes.Clear();
 			makeGrid();
 		}
 		lastPos = transform.position;
@@ -73,7 +76,7 @@ public class Grid : MonoBehaviour {
 
 		foreach(NODE n in nodes)
 		{
-			if(n.walkable && Vector2.Distance(pos, n.pos) < Vector2.Distance(pos, start.pos))
+			if(n.walkable && (Vector2.Distance(pos, n.pos) <= Vector2.Distance(pos, start.pos)))
 			{
 				start = n;
 			}
@@ -83,7 +86,7 @@ public class Grid : MonoBehaviour {
 		
 		foreach(NODE n in nodes)
 		{
-			if(n.walkable && Vector2.Distance(to, n.pos) < Vector2.Distance(to, end.pos))
+			if(n.walkable && (Vector2.Distance(to, n.pos) <= Vector2.Distance(to, end.pos)))
 			{
 				end = n;
 			}
