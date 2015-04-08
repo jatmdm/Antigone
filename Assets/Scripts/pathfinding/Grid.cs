@@ -10,15 +10,10 @@ public class Grid : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		makeGrid ();
-	}
-
-	void makeGrid()
-	{
-		Vector2 pos = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y))-new Vector2(8, -8);
+		Vector2 pos = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y))-new Vector2(10, -10);
 		Vector2 start = pos;
 		
-		for (int i=0; i < (16*16)-1; i++) 
+		for (int i=0; i < (20*20)-1; i++) 
 		{
 			if(nodes.Find(x => x.pos.Equals(pos)) == null)
 			{
@@ -26,7 +21,7 @@ public class Grid : MonoBehaviour {
 			}
 			
 			pos.x += 1f;
-			if (pos.x > start.x+16) 
+			if (pos.x > start.x+20) 
 			{
 				pos.x = start.x;
 				pos.y -= 1f;
@@ -37,6 +32,41 @@ public class Grid : MonoBehaviour {
 		{
 			Collider2D hit;
 			
+			if(hit = Physics2D.OverlapCircle(n.pos, .2f))
+			{
+				if(hit.tag == "wall")
+					n.walkable = false;
+			}
+		}
+		makeGrid ();
+	}
+
+	void makeGrid()
+	{
+		Vector2 pos = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y))-new Vector2(5, -5);
+		Vector2 start = pos;
+		
+		for (int i=0; i < (10*10)-1; i++) 
+		{
+			if(nodes.Find(x => x.pos.Equals(pos)) == null)
+			{
+				nodes.Add (new NODE (pos, true, (int)i));
+			}
+			
+			pos.x += 1f;
+			if (pos.x > start.x+10) 
+			{
+				pos.x = start.x;
+				pos.y -= 1f;
+			}
+		}
+
+		nodes.RemoveAll (x => Vector2.Distance (this.gameObject.transform.position, x.pos) > 20);
+		
+		foreach(NODE n in nodes)
+		{
+			Collider2D hit;
+
 			if(hit = Physics2D.OverlapCircle(n.pos, .2f))
 			{
 				if(hit.tag == "wall")
@@ -76,7 +106,7 @@ public class Grid : MonoBehaviour {
 
 		foreach(NODE n in nodes)
 		{
-			if(n.walkable && (Vector2.Distance(pos, n.pos) <= Vector2.Distance(pos, start.pos)))
+			if(n.walkable && (Vector2.Distance(pos, n.pos) < Vector2.Distance(pos, start.pos)))
 			{
 				start = n;
 			}
@@ -86,7 +116,7 @@ public class Grid : MonoBehaviour {
 		
 		foreach(NODE n in nodes)
 		{
-			if(n.walkable && (Vector2.Distance(to, n.pos) <= Vector2.Distance(to, end.pos)))
+			if(n.walkable && (Vector2.Distance(to, n.pos) < Vector2.Distance(to, end.pos)))
 			{
 				end = n;
 			}
